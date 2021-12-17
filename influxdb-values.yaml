@@ -1,0 +1,11 @@
+service:
+  type: NodePort
+
+setDefaultUser:
+  enabled: true
+  user:
+    username: "admin"
+
+env:
+  - name: INFLUXDB_DB
+    value: "fluentbit"
