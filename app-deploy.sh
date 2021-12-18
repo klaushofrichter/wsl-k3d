@@ -7,7 +7,6 @@ source ./config.sh
 echo
 echo "==== $0: Build app image ${APP}:${VERSION}"
 npm install
-chmod a+rx node_modules/node-jq/bin/jq  # odd
 docker build -t ${APP}:${VERSION} .
 
 echo
