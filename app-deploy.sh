@@ -23,6 +23,6 @@ echo "==== $0: Deploy application (namespace, pods, service, ingress)"
 cat app.yaml.template | envsubst "${ENVSUBSTVAR}" | kubectl create -f - --save-config
 
 echo
-echo "==== $0: Wait for ${app} deployment to finish"
+echo "==== $0: Wait for ${APP} deployment to finish"
 kubectl rollout status deployment.apps ${APP}-deploy -n ${APP} --request-timeout 5m
 
