@@ -16,7 +16,7 @@ echo "==== $0: Import new image ${APP}:${VERSION} to k3d ${CLUSTER} (this may ta
 k3d image import ${APP}:${VERSION} -c ${CLUSTER} --keep-tools
 
 echo
-echo "==== $0: Update application (namespace, pods, service, ingress)"
+echo "==== $0: Update application image and restart"
 kubectl set image deployment.apps/${APP}-deploy ${APP}-container=${APP}:${VERSION} -n ${APP}
 kubectl rollout restart deployment.apps/${APP}-deploy -n ${APP} --request-timeout 5m
 kubectl annotate deployment.apps/${APP}-deploy kubernetes.io/change-cause="image update via $0" -n ${APP}
