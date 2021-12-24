@@ -61,7 +61,7 @@ if [ ! -f dashboards/influxdb-stats-dashboard.json ]; then
   sed -i 's/${DS_PROMETHEUS}/Prometheus/g' dashboards/influxdb-stats-dashboard.json
   sed -i 's/DS_PROMETHEUS/Prometheus/g' dashboards/influxdb-stats-dashboard.json
   sed -i 's/^  "tags": \[\],/  "tags": \["logging", "influxdb"\],/g' dashboards/influxdb-stats-dashboard.json
-  cat dashboards/influxdb-stats-dashboard.json | npx jq '.time = { "from": "now-60m", "to": "now" }' > /tmp/influxdb-stats-dashboard.json
+  cat dashboards/influxdb-stats-dashboard.json | jq '.time = { "from": "now-60m", "to": "now" }' > /tmp/influxdb-stats-dashboard.json
   mv /tmp/influxdb-stats-dashboard.json dashboards/influxdb-stats-dashboard.json
 fi
 kubectl create configmap influxdb-dashboard -n monitoring --from-file="dashboards/influxdb-stats-dashboard.json"
@@ -90,7 +90,7 @@ kubectl rollout status deployment.apps prom-kube-state-metrics -n monitoring --r
 kubectl rollout status deployment.apps prom-kube-prometheus-stack-operator -n monitoring --request-timeout 5m
 kubectl rollout status statefulset.apps/alertmanager-prom-kube-prometheus-stack-alertmanager -n monitoring --request-timeout 5m
 echo -n "Wait for prom-grafana ingress to be available.."
-while [ "$(kubectl get ing prom-grafana -n monitoring -o json | npx jq -r .status.loadBalancer.ingress[0].ip)" = "null" ]
+while [ "$(kubectl get ing prom-grafana -n monitoring -o json | jq -r .status.loadBalancer.ingress[0].ip)" = "null" ]
 do
   i=$[$i+1]
   [ "$i" -gt "60" ] && echo "this took too long... exit." && exit 1

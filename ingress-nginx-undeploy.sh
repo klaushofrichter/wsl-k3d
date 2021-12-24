@@ -14,10 +14,10 @@ if [[ ! -z $(kubectl get namespace | grep "^ingress-nginx" ) ]]; then
 
   echo 
   echo "==== $0: Check if webhooks admissions for ingress-nginx are remaining"
-  items=$(kubectl get validatingwebhookconfigurations.admissionregistration.k8s.io -o json | npx jq '.items | length')
+  items=$(kubectl get validatingwebhookconfigurations.admissionregistration.k8s.io -o json | jq '.items | length')
   while [ $items -gt 0 ]; do
     items=$(( ${items} - 1 ))
-    name=$(kubectl get validatingwebhookconfigurations.admissionregistration.k8s.io -o json | npx jq -r ".items[${items}].metadata.name")
+    name=$(kubectl get validatingwebhookconfigurations.admissionregistration.k8s.io -o json | jq -r ".items[${items}].metadata.name")
     indicator="$(echo ${name} | cut -d '-' -f2)-$(echo ${name} | cut -d '-' -f3)"
     if [[ ${indicator} == "ingress-nginx" ]]; then
       echo "validatingwebhookconfigurations \"${name}\" to be deleted..."
