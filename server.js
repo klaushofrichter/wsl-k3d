@@ -45,7 +45,7 @@ const logger = winston.createLogger({
   ],
 });
 logger.critical("testing critical");
-logger.error("testing critical");
+logger.error("testing error");
 logger.warning("testing warning");
 logger.info("testing info");
 logger.debug("testing debug");
